@@ -7,5 +7,4 @@ This repository contains materials for a comparative study on execution-time opt
 - `experiments/` — Scripts and notebooks for experiments
 - `results/` — Figures, tables, and performance results
 - `data/` — Input datasets
-- `LICENSE` — License for the repository
 - `CONTRIBUTORS.md` — List of contributors
