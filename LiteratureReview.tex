@@ -1,0 +1,135 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+
+\title{LLM-Based Code Optimization: A Literature Review with Emphasis on Execution Time and On-Device Models}
+\author{
+Sari Laga, M.Sc.\\
+International Polytechnic College, Libya\\
+\texttt{slaga@polytechnic.edu.ly} \\
+University of Tripoli, Libya\\
+\texttt{s.laga@uot.edu.ly}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Recent advances in Large Language Models (LLMs) have significantly expanded the scope of artificial intelligence applications in software engineering. Initially developed for natural language processing tasks, LLMs have demonstrated strong capabilities in source code understanding, generation, and transformation. These capabilities have enabled a wide range of programming-related tasks, including code completion, automated refactoring, bug fixing, and code translation across programming languages.
+
+More recently, LLMs have been explored as \emph{program optimizers}, where the objective extends beyond functional correctness to improving non-functional properties of software, particularly execution time. Execution time optimization is a fundamental concern in performance-critical applications and is especially important in environments with limited computational resources, such as edge devices, embedded systems, and on-device deployments. Traditional compiler optimizations rely on static analysis and predefined optimization passes, which may fail to generalize across diverse workloads or adapt to hardware-specific constraints.
+
+LLM-based code optimization offers a complementary approach by leveraging learned patterns from large-scale code corpora. However, most existing studies focus on large, cloud-hosted models with substantial computational requirements, limiting their applicability in local and resource-constrained settings. At the same time, recent work on lightweight and on-device LLMs has focused primarily on deployment efficiency and general code generation quality, rather than execution-time optimization. This motivates a systematic review of LLM-based code optimization methods and highlights the need to explore lightweight local LLMs as execution-time optimizers.
+
+\section{LLMs for Code Understanding and Transformation}
+
+Transformer-based models such as CodeBERT and CodeT5 established that language models trained on source code can effectively capture syntactic and semantic properties of programming languages. These models enabled downstream tasks including code completion, translation, and refactoring. Subsequent research extended these capabilities toward performance-aware transformations.
+
+Cummins et al. demonstrated that transformer-based models trained on LLVM intermediate representations can generate optimized assembly code and predict compiler optimization behavior, showing that LLMs can learn optimization patterns traditionally handled by compilers. While effective, this approach relies on large-scale models and significant computational resources.
+
+\section{LLM-Based Code Optimization and Runtime Performance}
+
+Several studies directly evaluate LLMs as code optimizers using execution time as a primary metric. Rosas et al. compared LLM-generated optimized code with classical compiler optimizations and showed that large models such as GPT-4 and CodeLlama can outperform traditional compilers on selected benchmarks. However, correctness degradation and reliance on cloud-based inference remain key limitations.
+
+Hybrid optimization approaches have also been proposed. SemOpt integrates static program analysis with LLM-based rewriting to guide optimization decisions, improving reliability and optimization success. ECO introduces performance-aware prompting strategies that embed runtime optimization instructions into prompts, enabling improved performance without model fine-tuning. Reinforcement learning has further been explored, with PPO-based training demonstrating improvements over highly optimized compiler baselines.
+
+\section{Surveys of LLM-Based Code Optimization}
+
+Systematic surveys categorize LLM-based code optimization techniques by optimization target, learning paradigm, and evaluation methodology. These surveys identify execution time optimization as a key objective while emphasizing open challenges related to deployment efficiency, robustness, and resource constraints, particularly for on-device applications.
+
+\section{Lightweight and On-Device Language Models}
+
+A parallel research direction focuses on reducing model size and inference cost. MobileLLM introduces architectural principles for sub-billion-parameter language models optimized for mobile and edge devices. Similarly, aiXcoder-7B demonstrates that smaller, code-specialized LLMs can achieve competitive performance on code understanding and generation tasks. However, these studies primarily evaluate functional correctness and generation quality rather than execution-time optimization.
+
+\section{Model Compression and Knowledge Distillation}
+
+Knowledge distillation has been proposed to transfer reasoning capabilities from large language models to smaller ones. MiniLLM introduces a framework for distilling instruction-following and reasoning abilities, while symmetry-aware distillation methods transfer structured reasoning processes for code generation tasks. These approaches enable compact models to perform complex reasoning but do not explicitly target runtime optimization.
+
+\section{Comparison with Prior Work}
+
+Table~\ref{tab:comparison} summarizes the key differences between prior LLM-based code optimization studies and the proposed study.
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Aspect} & \textbf{Prior Work} & \textbf{Proposed Study} \\
+\hline
+Primary Objective & Code generation or general optimization & Execution-time optimization \\
+\hline
+Model Scale & Mostly large LLMs & Large and lightweight local LLMs \\
+\hline
+Deployment Setting & Cloud-based inference & Local and partially on-device \\
+\hline
+Optimization Metric & Mixed (instruction count, heuristics) & Execution time (primary) \\
+\hline
+Algorithmic Complexity & Rarely analyzed & Explicitly evaluated \\
+\hline
+Resource Constraints & Not a main concern & Memory and inference cost considered \\
+\hline
+Correctness Validation & Limited or heuristic & Explicit functional validation \\
+\hline
+\end{tabular}
+\caption{Comparison of prior LLM-based code optimization studies and the proposed approach.}
+\label{tab:comparison}
+\end{table}
+
+\section{Research Gap and Study Positioning}
+
+Despite significant progress in LLM-based code optimization, existing studies predominantly rely on large-scale models and powerful hardware. There is a lack of systematic evaluation of lightweight, locally deployed LLMs as execution-time code optimizers, particularly across algorithms of varying computational complexity. This study addresses this gap by comparing large and small LLMs in their ability to optimize execution time while considering on-device feasibility.
+
+\begin{thebibliography}{9}
+
+\bibitem{codebert}
+Feng, Z., Guo, D., Tang, D., et al.
+\textit{CodeBERT: A Pre-Trained Model for Programming and Natural Languages}.
+EMNLP, 2020.
+
+\bibitem{codet5}
+Wang, Y., Wang, W., Joty, S., et al.
+\textit{CodeT5: Identifier-Aware Unified Pre-Trained Encoder-Decoder Models for Code Understanding and Generation}.
+EMNLP, 2021.
+
+\bibitem{cummins}
+Cummins, C., et al.
+\textit{Large Language Models for Compiler Optimization}.
+NeurIPS, 2023.
+
+\bibitem{rosas}
+Rosas, E., et al.
+\textit{Should AI Optimize Your Code? A Comparative Study of LLMs vs Classical Compilers}.
+arXiv preprint, 2024.
+
+\bibitem{semopt}
+Zhao, J., et al.
+\textit{SemOpt: LLM-Driven Code Optimization via Rule-Based Analysis}.
+arXiv preprint, 2025.
+
+\bibitem{eco}
+Kim, H., et al.
+\textit{ECO: Enhanced Code Optimization via Performance-Aware Prompting}.
+arXiv preprint, 2025.
+
+\bibitem{mobilellm}
+Zhu, Y., et al.
+\textit{MobileLLM: Optimizing Sub-Billion Parameter Language Models for On-Device Use}.
+arXiv preprint, 2024.
+
+\bibitem{aixcoder}
+Zhang, F., et al.
+\textit{aiXcoder-7B: A Lightweight Large Language Model for Code}.
+arXiv preprint, 2024.
+
+\bibitem{minillm}
+Gu, Y., et al.
+\textit{MiniLLM: Knowledge Distillation for Large Language Models}.
+arXiv preprint, 2023.
+
+\end{thebibliography}
+
+\end{document}
